@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CSE_464_2023_aramak21" target="1.5" />
+      <module name="CSE_464_2023_aramak21" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
