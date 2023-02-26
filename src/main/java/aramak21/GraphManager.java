@@ -62,9 +62,49 @@ public class GraphManager {
             addNode(n);
         }
     }
-//    public void addEdge(String source, String target) {
-//    for(Edge e : graph.edges)
-//    }
+    public void addEdge(String source, String target) {
+  boolean isSource = false;
+  boolean isTarget = false;
+  Node s = null;
+  Node t= null;
+    for(Node n : graph.nodes)
+    {
+        if(n.getName().equals(source))
+        {
+            isSource=true;
+            s = n;
+        }
+
+        if(n.getName().equals(target))
+        {
+            isTarget=true;
+            t= n ;
+
+        }
+    }
+    if(!isSource)
+    {
+        s = new Node(source);
+        graph.nodes.add(s);
+    }
+    if(!isTarget)
+    {
+        t= new Node(target);
+        graph.nodes.add(t);
+    }
+
+    for(Edge e : graph.edges)
+    {
+        if(e.getSource().getName().equals(source) && e.getTarget().getName().equals(target))
+        {
+            System.out.println("the edge with source "+ source + "and target " + target + " already exists");
+            return;
+        }
+    }
+    graph.edges.add(new Edge(s,t));
+
+
+    }
     public void removeNode(String node_name) {
        ArrayList<Node> nodes1 = new ArrayList<>();
        ArrayList<Edge> edges1 = new ArrayList<>();
@@ -97,8 +137,19 @@ public class GraphManager {
     }
 
     public void removeEdge(String source, String target) {
-
+        ArrayList<Edge> edges1 = new ArrayList<>();
+        for(Edge e : graph.edges)
+        {
+            if(e.getSource().getName().equals(source) && e.getTarget().getName().equals(target))
+            {
+                continue;
+            }
+            edges1.add( new Edge(e.getSource(),e.getTarget()));
+        }
+        graph.edges= edges1 ;
     }
+
+
 
     public MutableGraph graphToMutableGraph()
     {

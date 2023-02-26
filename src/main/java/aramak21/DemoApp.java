@@ -40,9 +40,15 @@ public class DemoApp {
        gm.removeNodes(new String[]{ "e","f","g"});
 
        gm.toString();
-//
-//        gm.removeEdge("a","c");
 
+        gm.addEdge("a","e");
+        gm.addEdge("f","g");
+
+        gm.toString();
+
+        gm.removeEdge("a","e");
+
+        gm.toString();
 
     }
 
