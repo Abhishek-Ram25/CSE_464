@@ -10,60 +10,81 @@ import guru.nidi.graphviz.parse.Parser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLOutput;
+
+import static guru.nidi.graphviz.model.Factory.mutGraph;
+import static guru.nidi.graphviz.model.Factory.mutNode;
 
 public class GraphManager {
-    MutableGraph g;
-    public void parseGraph(String filename) throws Exception
+
+    Graph graph;
+    public void parseGraph(String filename) throws IOException
     {
-      try {
-          //InputStream dot = getClass().getResourceAsStream(filename);
+             //InputStream dot = getClass().getResourceAsStream(filename);
           FileInputStream input
                   = new FileInputStream(filename);
-           g = new Parser().read(input);
+           MutableGraph   g = new Parser().read(input);
+           graph = new Graph(g);
+           toString();
 
-          System.out.println("the number of nodes in the graph is  " + g.nodes().size());
-
-          System.out.println("the number of edges in the graph is " + g.edges().size());
-
-          for (MutableNode node : g.nodes()) {
-              System.out.println("The name of the node is " + node.name());
-
-          }
-          for (Link edge : g.edges()) {
-              System.out.println("the edge is from " + edge.from().name() + " -> " + edge.to().name());
-          }
-
-         // System.out.println(g.toString());
-      }catch (Exception e)
-      {
-          throw e;
-      }
-    }
+     }
 
    @Override public String toString()
+
     {
-     return g.toString();
+        String output;
+     System.out.println("The number of nodes in the graphs is " + graph.nodes.size());
+     System.out.println("The number of edges in the graph is " + graph.edges.size());
+     System.out.println("The label is " + graph.label);
+
+     for(Node node : graph.nodes)
+         System.out.println("The node is " + node.getName());
+
+     for(Edge edge : graph.edges)
+         System.out.println("The edge is from " + edge.getSource().getName() + " -> " + edge.getTarget().getName());
+
+     output = graphToMutableGraph().toString();
+    System.out.println("op file is " + output);
+     return output;
     }
 
-    public void outputGraph(String filepath) throws IOException {
-        try {
-            FileInputStream input
-                    = new FileInputStream(filepath);
-            Graphviz.fromGraph(g).height(100).render(Format.PNG).toFile(new File("example/ex1.png"));
-        } catch (Exception e) {
-            throw e;
-        }
-    }
+
     public void addEdge(String source, String target) {
 
     }
 
     public void addNode(String node) {
+
+    }
+    public void addNodes(String[] node) {
+        for (String n:node) {
+            addNode(n);
+        }
+        //logic to handle duplicate node
     }
 
     public void removeNode(String node) {
+       // System.out.println( g.toString());
     }
 
     public void removeEdge(String source, String target) {
+
+    }
+
+    public MutableGraph graphToMutableGraph()
+    {
+        MutableGraph g = mutGraph(graph.label).setDirected(true);
+
+        for(Node node : graph.nodes)
+        {
+            g.add(mutNode(node.name));
+        }
+
+        for(Edge edge : graph.edges)
+        {
+            g.add(mutNode(edge.getSource().getName()).addLink(mutNode(edge.getTarget().getName())));
+        }
+
+        return g;
     }
 }
