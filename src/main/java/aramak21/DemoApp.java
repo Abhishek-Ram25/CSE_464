@@ -28,17 +28,18 @@ public class DemoApp {
 
         gm.parseGraph("testInputGraph.dot");
 
-      //  System.out.println("The code for the graph is " + gm.toString());
 
 //        gm.outputGraph("testInputGraph.dot");
 //
-//        gm.addNode("e");
-//
-//        gm.addNodes(new String[]{"e", "f", "g"});
-//
-//        gm.addEdge("e","f");
-//
-//        gm.removeNode("e");
+        gm.addNode("e");
+
+       gm.addNodes(new String[]{"e", "f", "g"});
+
+       gm.removeNode("a");
+
+       gm.removeNodes(new String[]{ "e","f","g"});
+
+       gm.toString();
 //
 //        gm.removeEdge("a","c");
 
