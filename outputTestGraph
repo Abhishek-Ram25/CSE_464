@@ -1,0 +1,14 @@
+
+The number of Nodes is 7
+The number of edges is 5 
+ The nodes are as follows c d b a e f g 
+ the edges are as follows digraph {
+"d"
+"e"
+"g"
+"c" -> "d"
+"b" -> "c"
+"a" -> "f"
+"a" -> "c"
+"f" -> "g"
+}

@@ -1,0 +1,10 @@
+
+The number of Nodes is 4
+The number of edges is 4 
+ The nodes are as follows c a d b 
+ the edges are as follows digraph {
+"c" -> "d"
+"a" -> "b"
+"d" -> "a"
+"b" -> "c"
+}
