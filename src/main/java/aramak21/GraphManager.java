@@ -104,7 +104,7 @@ public class GraphManager {
     {
         if(e.getSource().getName().equals(source) && e.getTarget().getName().equals(target))
         {
-            System.out.println("\n the edge with source "+ source + "and target " + target + " already exists");
+            System.out.println("\n the edge with source "+ source + "  and target " + target + " already exists");
             return;
         }
     }
@@ -204,17 +204,44 @@ public class GraphManager {
     }
 
     public void outputGraph(String filepath) throws IOException
-    {
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
-        bw.write("\nThe number of Nodes is " + graph.nodes.size());
+    {   BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
+        bw.write("The number of Nodes is " + graph.nodes.size());
         bw.write("\nThe number of edges is " + graph.edges.size());
-        bw.write(" \n The nodes are as follows " );
+        bw.write("\nThe nodes are as follows");
         for(Node n: graph.nodes)
-            bw.write(n.getName() + " " );
-        bw.write("\n the edges are as follows " + graphToMutableGraph());
+            bw.write(" " + n.getName());
+        bw.write("\nthe edges are as follows " + graphToMutableGraph());
         bw.close();
     }
 
 
+    public int nodeSize() {
+        return graph.nodes.size();
+    }
+
+    public int edgeSize() {
+        return  graph.edges.size();
+    }
+
+    public boolean containsEdge(String a, String b) {
+        boolean hasEdge = false;
+        for(Edge e : graph.edges) {
+            if (e.getSource().getName().equals(a) && e.getTarget().getName().equals(b))
+                hasEdge = true;
+        }
+
+        return hasEdge;
+    }
+
+    public boolean containsNode(String e) {
+        boolean hasNode = false;
+        for(Node n : graph.nodes)
+        {
+            if(n.getName().equals(e))
+            {
+             hasNode = true;
+            }
+        }
+        return hasNode;
+    }
 }
