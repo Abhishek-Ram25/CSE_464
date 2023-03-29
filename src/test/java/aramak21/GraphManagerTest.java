@@ -135,4 +135,28 @@ public class GraphManagerTest {
 
     }
 
+    @Test
+    public void testBFS(){
+        {
+            Path path = g.GraphSearch(new Node("a"), new Node("d"));
+            Assert.assertEquals("a -> b -> c -> d", path.toString());
+
+            path = g.GraphSearch(new Node("a"), new Node("a"));
+            Assert.assertEquals("a", path.toString());
+
+
+            path = g.GraphSearch(new Node("b"), new Node("a"));
+            Assert.assertEquals("b -> c -> d -> a", path.toString());
+
+            g.addNodes(new String[]{"e", "f", "g"});
+            g.addEdge("d","e");
+            g.addEdge("e","f");
+            g.addEdge("d","f");
+            g.addEdge("f","g");
+
+            path = g.GraphSearch(new Node("a"), new Node("g"));
+            Assert.assertEquals("a -> b -> c -> d -> f -> g", path.toString());
+        }
+    }
+
 }
