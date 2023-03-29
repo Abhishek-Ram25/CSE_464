@@ -244,4 +244,10 @@ public class GraphManager {
         }
         return hasNode;
     }
+
+
+    public Path GraphSearch(Node src,Node dst)
+    {
+        return graph.findPathUsingDFS(src,dst);
+    }
 }

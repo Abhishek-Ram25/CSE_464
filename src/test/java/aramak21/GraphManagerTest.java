@@ -135,4 +135,27 @@ public class GraphManagerTest {
 
     }
 
+    @Test
+    public void testDFSGraphSearch() {
+        Path path = g.GraphSearch(new Node("a"), new Node("d") );
+        Assert.assertEquals("a -> b -> c -> d", path.toString());
+
+        path = g.GraphSearch(new Node("a"), new Node("a") );
+        Assert.assertEquals("a", path.toString());
+
+
+        path = g.GraphSearch(new Node("b"), new Node("a") );
+        Assert.assertEquals("b -> c -> d -> a", path.toString());
+
+        g.addNodes(new String[]{"e","f","g", "h", "i"});
+        g.addEdge("d","e");
+        g.addEdge("d","f");
+        g.addEdge("d","g");
+        g.addEdge("d","h");
+        g.addEdge("g","h");
+        g.addEdge("h","i");
+
+        path = g.GraphSearch(new Node("a"), new Node("i") );
+        Assert.assertEquals("a -> b -> c -> d -> g -> h -> i", path.toString());
+    }
 }
