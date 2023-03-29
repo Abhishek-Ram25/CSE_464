@@ -41,6 +41,37 @@ public class Graph {
         }
 
     }
+    public Path findPathUsingDFS(Node src, Node dst){
+        Map<String, List<Node>> edgeMap = getEdgeAsMap();
+        Set<String> visited = new HashSet<>();
+        String currentParent = null;
+        Path path = new Path();
+
+        boolean found = findDestinationUsingDFS(src.getName(), dst.getName(), edgeMap, path, visited);
+        return found ? path: null;
+    }
+
+    private boolean findDestinationUsingDFS(String currentNode, String dst, Map<String, List<Node>> edgeMap,
+                                                                              Path path, Set<String> visited) {
+        if (visited.contains(currentNode)) {
+            return false;
+        } else {
+            visited.add(currentNode);
+            path.addNodeInTheEnd(new Node(currentNode));
+            if (currentNode.equals(dst)) {
+                return true;
+            } else {
+                List<Node> possibleDestinations = edgeMap.getOrDefault(currentNode, new LinkedList<>());
+                for (Node eachDst : possibleDestinations) {
+                    if (findDestinationUsingDFS(eachDst.getName(), dst, edgeMap, path, visited)) {
+                        return true;
+                    }
+                }
+            }
+            path.removeLastNode();
+            return false;
+        }
+    }
 
     public Path findPathUsingBFS(Node src, Node dst) {
         Map<String, String> parentMap = new HashMap<>();

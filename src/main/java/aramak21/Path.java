@@ -4,22 +4,22 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Path {
-        final LinkedList<Node> nodesInThePath;
+    final LinkedList<Node> nodesInThePath;
 
     public Path() {
         nodesInThePath = new LinkedList<>();
     }
 
-        public void addNodeInTheEnd(Node node){
+    public void addNodeInTheEnd(Node node){
         nodesInThePath.add(node);
     }
 
-        public void addNodeInTheFront(Node node){
+    public void addNodeInTheFront(Node node){
         nodesInThePath.addFirst(node);
     }
 
-        @Override
-        public String toString() {
+    @Override
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         if (!nodesInThePath.isEmpty()){
             Iterator<Node> iterator = nodesInThePath.iterator();
@@ -29,5 +29,8 @@ public class Path {
             }
         }
         return builder.toString();
+    }
+    public Node removeLastNode() {
+        return nodesInThePath.removeLast();
     }
 }
