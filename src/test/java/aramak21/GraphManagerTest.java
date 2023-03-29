@@ -179,7 +179,8 @@ public class GraphManagerTest {
             g.addEdge("f","g");
 
             path = g.GraphSearch(new Node("a"), new Node("g"), Algorithm.bfs);
-            Assert.assertEquals("a -> b -> c -> d -> f -> g", path.toString());
+            Assert.assertEquals("a -> b -> c -> d -> " +
+                    "f -> g", path.toString());
         }
     }
 }

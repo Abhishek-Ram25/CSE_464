@@ -32,7 +32,7 @@ public class DemoApp {
         gm.parseGraph(dotFileName);
 
         int choice=0;
-        while(choice!=11)
+        while(choice!=13)
         {
             System.out.println(" \nSelect an option");
             System.out.println("1.  Print info about the graph\n"
@@ -45,7 +45,9 @@ public class DemoApp {
                                 +  "8. Remove an edge between two nodes\n"
                                 +  "9.Return the graph info in a DOT file\n" +
                                    "10.Return the graph as an SVG or PNG\n" +
-                                   "11. Quit Program" );
+                                   "11. Perform bfs\n"+
+                                    "12. Perform dfs\n"
+                                + "13.Exit");
 
             choice =  new Scanner(System.in).nextInt();
 
@@ -103,39 +105,28 @@ public class DemoApp {
                           gm.outputGraphics(fileName,fileType);
                           break;
 
-                case 11 : System.out.println("exiting now ");
+                case 11 : graphSearch(gm,Algorithm.bfs);
                           break;
 
+                case 12 : graphSearch(gm,Algorithm.dfs);
+                          break;
+
+                case 13:
+                    System.out.println("Exiting the application");
+                    return;
             }
         }
-//        //gm.parseGraph("testInputGraph.dot");
-//
-//        gm.addNode("e");
-//
-//       gm.addNodes(new String[]{"e", "f", "g"});
-//
-//       gm.removeNode("a");
-//
-//       gm.removeNodes(new String[]{ "e","f","g"});
-//
-//        gm.addEdge("a","e");
-//        gm.addEdge("a","c");
-//        gm.addEdge("a","f");
-//        gm.addEdge("f","g");
-//
-//        gm.removeEdge("a","e");
-//
-//        gm.toString();
-//
-//        gm.outputDOTGraph("outputDOTGraphTest");
-//        gm.outputDOTGraph("checkDOTgraph");
-//
-//        gm.outputGraphics("opGraphicsTest","png");
-//        gm.outputGraphics("opGraphicsTest1a","SVG");
-//
-//        gm.outputGraph("outputTestGraph");
 
     }
 
+    public static void graphSearch(GraphManager graphManager,Algorithm algo)
+    {
+        System.out.println("Enter the source node");
+        String src = new Scanner(System.in).nextLine();
+        System.out.println("Enter the destination node");
+        String dst = new Scanner(System.in).nextLine();
+        Path path = graphManager.GraphSearch(new Node(src),new Node(dst),algo);
+        System.out.println("the path is: \n" + path.toString());
+    }
 
 }
