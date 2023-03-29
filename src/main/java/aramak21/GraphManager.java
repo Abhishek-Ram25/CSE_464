@@ -244,4 +244,9 @@ public class GraphManager {
         }
         return hasNode;
     }
+
+    public Path GraphSearch(Node src,Node dst)
+    {
+        return graph.findPathUsingBFS(src,dst);
+    }
 }
