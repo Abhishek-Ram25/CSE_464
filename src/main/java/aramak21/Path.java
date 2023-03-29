@@ -30,7 +30,6 @@ public class Path {
         }
         return builder.toString();
     }
-
     public Node removeLastNode() {
         return nodesInThePath.removeLast();
     }

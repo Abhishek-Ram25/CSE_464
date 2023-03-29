@@ -245,9 +245,12 @@ public class GraphManager {
         return hasNode;
     }
 
-
-    public Path GraphSearch(Node src,Node dst)
-    {
-        return graph.findPathUsingDFS(src,dst);
+    public Path GraphSearch(Node src,Node dst, Algorithm algo) {
+        if (algo == Algorithm.dfs){
+            return graph.findPathUsingDFS(src,dst);
+        }else if(algo == Algorithm.bfs){
+        return graph.findPathUsingBFS(src,dst);
+        }
+        return null;
     }
 }

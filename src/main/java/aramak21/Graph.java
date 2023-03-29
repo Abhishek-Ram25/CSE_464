@@ -41,7 +41,6 @@ public class Graph {
         }
 
     }
-
     public Path findPathUsingDFS(Node src, Node dst){
         Map<String, List<Node>> edgeMap = getEdgeAsMap();
         Set<String> visited = new HashSet<>();
@@ -54,17 +53,17 @@ public class Graph {
 
     private boolean findDestinationUsingDFS(String currentNode, String dst, Map<String, List<Node>> edgeMap,
                                                                               Path path, Set<String> visited) {
-        if (visited.contains(currentNode)){
+        if (visited.contains(currentNode)) {
             return false;
-        }else{
+        } else {
             visited.add(currentNode);
             path.addNodeInTheEnd(new Node(currentNode));
-            if (currentNode.equals(dst)){
+            if (currentNode.equals(dst)) {
                 return true;
-            }else{
+            } else {
                 List<Node> possibleDestinations = edgeMap.getOrDefault(currentNode, new LinkedList<>());
                 for (Node eachDst : possibleDestinations) {
-                    if (findDestinationUsingDFS(eachDst.getName(), dst, edgeMap, path, visited)){
+                    if (findDestinationUsingDFS(eachDst.getName(), dst, edgeMap, path, visited)) {
                         return true;
                     }
                 }
@@ -72,6 +71,49 @@ public class Graph {
             path.removeLastNode();
             return false;
         }
+    }
+
+    public Path findPathUsingBFS(Node src, Node dst) {
+        Map<String, String> parentMap = new HashMap<>();
+        parentMap.put(src.getName(), null);
+        Map<String, List<Node>> edgeMap = getEdgeAsMap();
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.add(src.getName());
+        while (!queue.isEmpty()){
+            String currentNode = queue.poll();
+            if (!visited.contains(currentNode)){
+                visited.add(currentNode);
+
+                if (currentNode.equals(dst.getName())){
+                    break;
+                }
+
+                List<Node> possibleDestinations = edgeMap.getOrDefault(currentNode, new LinkedList<>());
+                for (Node eachDst : possibleDestinations) {
+                    queue.add(eachDst.getName());
+                    if (!parentMap.containsKey(eachDst.getName())){
+                        parentMap.put(eachDst.getName(), currentNode);
+                    }
+                }
+            }
+        }
+
+        return generatePath(parentMap, dst);
+    }
+
+    private Path generatePath(Map<String, String> childToParentMap, Node dst){
+        Path path = null;
+        if (childToParentMap.containsKey(dst.getName())){
+            path = new Path();
+            path.addNodeInTheFront(dst);
+            String parent = childToParentMap.get(dst.getName());
+            while (parent != null){
+                path.addNodeInTheFront(new Node(parent));
+                parent = childToParentMap.get(parent);
+            }
+        }
+        return path;
     }
 
     private Map<String, List<Node>> getEdgeAsMap() {

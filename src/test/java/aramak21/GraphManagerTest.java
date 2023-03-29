@@ -137,14 +137,14 @@ public class GraphManagerTest {
 
     @Test
     public void testDFSGraphSearch() {
-        Path path = g.GraphSearch(new Node("a"), new Node("d") );
+        Path path = g.GraphSearch(new Node("a"), new Node("d"), Algorithm.dfs );
         Assert.assertEquals("a -> b -> c -> d", path.toString());
 
-        path = g.GraphSearch(new Node("a"), new Node("a") );
+        path = g.GraphSearch(new Node("a"), new Node("a") , Algorithm.dfs);
         Assert.assertEquals("a", path.toString());
 
 
-        path = g.GraphSearch(new Node("b"), new Node("a") );
+        path = g.GraphSearch(new Node("b"), new Node("a") , Algorithm.dfs);
         Assert.assertEquals("b -> c -> d -> a", path.toString());
 
         g.addNodes(new String[]{"e","f","g", "h", "i"});
@@ -155,7 +155,31 @@ public class GraphManagerTest {
         g.addEdge("g","h");
         g.addEdge("h","i");
 
-        path = g.GraphSearch(new Node("a"), new Node("i") );
+        path = g.GraphSearch(new Node("a"), new Node("i") , Algorithm.dfs);
         Assert.assertEquals("a -> b -> c -> d -> g -> h -> i", path.toString());
+    }
+
+    @Test
+    public void testBFS(){
+        {
+            Path path = g.GraphSearch(new Node("a"), new Node("d"), Algorithm.bfs);
+            Assert.assertEquals("a -> b -> c -> d", path.toString());
+
+            path = g.GraphSearch(new Node("a"), new Node("a"), Algorithm.bfs);
+            Assert.assertEquals("a", path.toString());
+
+
+            path = g.GraphSearch(new Node("b"), new Node("a"), Algorithm.bfs);
+            Assert.assertEquals("b -> c -> d -> a", path.toString());
+
+            g.addNodes(new String[]{"e", "f", "g"});
+            g.addEdge("d","e");
+            g.addEdge("e","f");
+            g.addEdge("d","f");
+            g.addEdge("f","g");
+
+            path = g.GraphSearch(new Node("a"), new Node("g"), Algorithm.bfs);
+            Assert.assertEquals("a -> b -> c -> d -> f -> g", path.toString());
+        }
     }
 }
