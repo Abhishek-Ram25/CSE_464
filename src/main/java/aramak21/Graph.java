@@ -20,21 +20,21 @@ public class Graph {
 
         label=graph.name().toString();
 
-        for (MutableNode n:graph.nodes())
+        for (MutableNode mutableNode:graph.nodes())
         {
-        nodes.add(new Node(n.name().toString()));
+        nodes.add(new Node(mutableNode.name().toString()));
         }
 
-        for(Link l: graph.edges()) {
+        for(Link link: graph.edges()) {
             Node source = null;
             Node target = null;
 
-            for (Node n : nodes)
+            for (Node node : nodes)
             {
-                if(n.getName() == l.from().name().toString())
-                    source= n;
-                if(n.getName() == l.to().name().toString())
-                    target= n;
+                if(node.getName() == link.from().name().toString())
+                    source= node;
+                if(node.getName() == link.to().name().toString())
+                    target= node;
             }
             edges.add(new Edge(source,target));
 
