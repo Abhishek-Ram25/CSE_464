@@ -27,14 +27,10 @@ public class GraphManager {
      }
 
    @Override public String toString()
-
     {
         String output;
-     System.out.println("The number of nodes in the graphs is " + graph.nodes.size());
-     System.out.println("The number of edges in the graph is " + graph.edges.size());
-     System.out.println("The label is " + graph.label);
-     System.out.println("The nodes are ");
-     for(Node node : graph.nodes)
+        printInfo();
+        for(Node node : graph.nodes)
          System.out.print(" " + node.getName() + " ");
      System.out.println("\n");
      System.out.println("The edges are from : ");
@@ -46,7 +42,12 @@ public class GraphManager {
      return output;
     }
 
-
+    private void printInfo() {
+        System.out.println("The number of nodes in the graphs is " + graph.nodes.size());
+        System.out.println("The number of edges in the graph is " + graph.edges.size());
+        System.out.println("The label is " + graph.label);
+        System.out.println("The nodes are ");
+    }
 
 
     public void addNode(String node_name) {
@@ -58,12 +59,17 @@ public class GraphManager {
             }
         }
         graph.nodes.add(new Node(node_name));
-        System.out.println("\nThe number of nodes after adding " + node_name+ " is " + graph.nodes.size());
+        displayUponAdd(node_name);
+
+    }
+
+    private void displayUponAdd(String node_name) {
+        System.out.println("\nThe number of nodes after adding " + node_name + " is " + graph.nodes.size());
         System.out.println("\nthe nodes after add operation ");
         for(Node node : graph.nodes)
             System.out.print(" " + node.getName() + " ");
-
     }
+
     public void addNodes(String[] nodes) {
         for (String node:nodes) {
             addNode(node);
