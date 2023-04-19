@@ -50,9 +50,9 @@ public class GraphManager {
 
 
     public void addNode(String node_name) {
-        for(Node n : graph.nodes)
+        for(Node node : graph.nodes)
         {
-            if(n.getName().equals(node_name))
+            if(node.getName().equals(node_name))
             {
                 System.out.println("\n the node " + node_name + " already exists"); return;
             }
