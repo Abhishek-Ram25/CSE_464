@@ -1,5 +1,8 @@
 package aramak21;
 
+import aramak21.graphSearcher.BFSGraphSearchImpl;
+import aramak21.graphSearcher.DFSGraphSearchImpl;
+import aramak21.graphSearcher.GraphSearcher;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -252,11 +255,12 @@ public class GraphManager {
     }
 
     public Path GraphSearch(Node src,Node dst, Algorithm algo) {
+        Path path;
+        GraphSearcher graphSearcher;
         if (algo == Algorithm.dfs){
-            return graph.findPathUsingDFS(src,dst);
-        }else if(algo == Algorithm.bfs){
-        return graph.findPathUsingBFS(src,dst);
-        }
-        return null;
+            graphSearcher = new DFSGraphSearchImpl(graph, src, dst);
+        }else
+            graphSearcher = new BFSGraphSearchImpl(graph, src, dst);
+        return graphSearcher.search();
     }
 }

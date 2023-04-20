@@ -158,7 +158,7 @@ public class GraphManagerTest {
     }
 
     @Test
-    public void testBFS(){
+    public void testBFSGraphSearch(){
         {
             Path path = graphManager.GraphSearch(new Node("a"), new Node("d"), Algorithm.bfs);
             Assert.assertEquals("a -> b -> c -> d", path.toString());
@@ -177,8 +177,7 @@ public class GraphManagerTest {
             graphManager.addEdge("f","g");
 
             path = graphManager.GraphSearch(new Node("a"), new Node("g"), Algorithm.bfs);
-            Assert.assertEquals("a -> b -> c -> d -> " +
-                    "f -> g", path.toString());
+            Assert.assertEquals("a -> b -> c -> d -> f -> g", path.toString());
         }
     }
 }
