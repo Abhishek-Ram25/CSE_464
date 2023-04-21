@@ -1,11 +1,11 @@
-package aramak21.graphSearcher;
+package aramak21.graphTraverse;
 import aramak21.Edge;
 import aramak21.Graph;
 import aramak21.Node;
 import aramak21.Path;
 import java.util.*;
 
-public abstract class GraphSearcher {
+public abstract class GraphTraverseAlgorithm {
 
     protected final Graph graph;
 
@@ -19,7 +19,7 @@ public abstract class GraphSearcher {
 
     protected Set<String> visited;
 
-    public GraphSearcher(Graph graph, Node src, Node dst) {
+    public GraphTraverseAlgorithm(Graph graph, Node src, Node dst) {
         this.graph = graph;
         this.src = src;
         this.dst = dst;

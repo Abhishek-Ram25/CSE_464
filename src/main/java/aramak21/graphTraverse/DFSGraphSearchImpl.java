@@ -1,14 +1,12 @@
-package aramak21.graphSearcher;
-import aramak21.graphSearcher.GraphSearcher;
+package aramak21.graphTraverse;
 import aramak21.Graph;
 import aramak21.Node;
-import aramak21.Path;
 
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DFSGraphSearchImpl extends GraphSearcher{
+public class DFSGraphSearchImpl extends GraphTraverseAlgorithm {
     private Stack<String> stack;
 
     public DFSGraphSearchImpl (Graph graph, Node src, Node dst) {

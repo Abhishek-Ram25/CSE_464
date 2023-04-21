@@ -1,11 +1,11 @@
-package aramak21.graphSearcher;
+package aramak21.graphTraverse;
 import aramak21.Graph;
 import aramak21.Node;
 
 
 import java.util.*;
 
-public class BFSGraphSearchImpl extends GraphSearcher{
+public class BFSGraphSearchImpl extends GraphTraverseAlgorithm {
 
     private Queue<String> queue;
 

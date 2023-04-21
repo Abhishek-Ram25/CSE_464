@@ -1,8 +1,11 @@
 package aramak21;
 
-import aramak21.graphSearcher.BFSGraphSearchImpl;
-import aramak21.graphSearcher.DFSGraphSearchImpl;
-import aramak21.graphSearcher.GraphSearcher;
+import aramak21.graphSearch.GraphSearcher;
+import aramak21.graphSearch.strategy.GraphSearcherStrategy;
+import aramak21.graphSearch.strategy.factory.GraphSearcherStrategyFactory;
+import aramak21.graphTraverse.BFSGraphSearchImpl;
+import aramak21.graphTraverse.DFSGraphSearchImpl;
+import aramak21.graphTraverse.GraphTraverseAlgorithm;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -254,13 +257,26 @@ public class GraphManager {
         return hasNode;
     }
 
-    public Path GraphSearch(Node src,Node dst, Algorithm algo) {
-        Path path;
-        GraphSearcher graphSearcher;
-        if (algo == Algorithm.dfs){
-            graphSearcher = new DFSGraphSearchImpl(graph, src, dst);
-        }else
-            graphSearcher = new BFSGraphSearchImpl(graph, src, dst);
-        return graphSearcher.search();
+    public Path GraphSearch(Node src, Node dst, Algorithm algo) {
+        printSearchInformation(src, dst, algo);
+        GraphSearcherStrategy strategy = GraphSearcherStrategyFactory.getStrategy(algo);
+        GraphSearcher graphSearcher = new GraphSearcher(strategy);
+        Path path = graphSearcher.search(graph, src, dst);
+        printPath(path);
+        return path;
     }
+
+    private static void printSearchInformation(Node src, Node dst, Algorithm algo) {
+        System.out.printf("Searching path from %s to %s by using algorithm: %s%n",
+                src.getName(), dst.getName(), algo.name());
+    }
+
+    private static void printPath(Path path) {
+        if (path != null){
+            System.out.printf("The path : %s%n", path.toString());
+        }else{
+            System.out.println("Sorry. No valid path was found!!!");
+        }
+    }
+
 }
