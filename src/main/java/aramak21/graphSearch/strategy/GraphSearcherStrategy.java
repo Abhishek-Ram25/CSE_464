@@ -6,6 +6,10 @@ import aramak21.Algorithm;
 public abstract class GraphSearcherStrategy {
     protected Algorithm algoName;
 
+    public GraphSearcherStrategy(Algorithm algorithmName) {
+        this.algoName = algorithmName;
+    }
+
     public abstract Path search(Graph graph, Node source, Node destination);
 
     public Algorithm getAlgoName() {

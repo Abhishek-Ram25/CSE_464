@@ -17,7 +17,7 @@ public class DemoApp {
         graphManager.parseGraph(dotFileName);
 
         int choice=0;
-        while(choice!=13)
+        while(choice!=14)
         {
             System.out.println(" \nSelect an option");
             showOptions();
@@ -69,8 +69,9 @@ public class DemoApp {
 
                 case 12 : graphSearch(graphManager,Algorithm.dfs);
                           break;
-
-                case 13:
+                case 13 : graphSearch(graphManager,Algorithm.random_walk);
+                    break;
+                case 14:
                     System.out.println("Exiting the application");
                     return;
             }

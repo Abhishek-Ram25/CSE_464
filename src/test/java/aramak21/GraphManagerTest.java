@@ -180,4 +180,5 @@ public class GraphManagerTest {
             Assert.assertEquals("a -> b -> c -> d -> f -> g", path.toString());
         }
     }
+
 }

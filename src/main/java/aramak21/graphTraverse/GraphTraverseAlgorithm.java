@@ -41,6 +41,7 @@ public abstract class GraphTraverseAlgorithm {
     private boolean processCurrentNode(String currentNode){
         if (!visited.contains(currentNode)){
             visited.add(currentNode);
+            printVisitingPath(new Node(currentNode));
             if (currentNode.equals(dst.getName())){
                 return true;
             }else{
@@ -53,6 +54,10 @@ public abstract class GraphTraverseAlgorithm {
         return false;
     }
 
+    private void printVisitingPath(Node node) {
+        System.out.println("Visiting Path : "+generatePath(node).toString());
+    }
+
     protected abstract void setupNextNode(String currentNode, String nextNode);
 
     protected abstract List<Node> getPossibleNextNodes(String currentNode);
@@ -61,7 +66,13 @@ public abstract class GraphTraverseAlgorithm {
 
     protected abstract boolean isNext();
 
-    protected abstract void setupSearch();
+    protected void setupSearch()
+    {
+        childToParentNodeMap = new HashMap<>();
+        childToParentNodeMap.put(src.getName(), null);
+        edgeMap = getEdgeAsMap();
+        visited = new HashSet<>();
+    }
 
     private boolean validateInput(Node src, Node dst) {
         boolean isSource = false;
@@ -93,12 +104,16 @@ public abstract class GraphTraverseAlgorithm {
         return edgeMap;
     }
 
-    protected Path generatePath(){
+    protected Path generatePath() {
+        return generatePath(dst);
+    }
+
+    private Path generatePath(Node end){
         Path path = null;
-        if (childToParentNodeMap.containsKey(dst.getName())){
+        if (childToParentNodeMap.containsKey(end.getName())){
             path = new Path();
-            path.addNodeInTheFront(dst);
-            String parent = childToParentNodeMap.get(dst.getName());
+            path.addNodeInTheFront(end);
+            String parent = childToParentNodeMap.get(end.getName());
             while (parent != null){
                 path.addNodeInTheFront(new Node(parent));
                 parent = childToParentNodeMap.get(parent);
@@ -106,7 +121,5 @@ public abstract class GraphTraverseAlgorithm {
         }
         return path;
     }
-
-
 
 }

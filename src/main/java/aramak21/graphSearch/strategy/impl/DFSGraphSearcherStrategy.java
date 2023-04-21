@@ -10,7 +10,7 @@ import aramak21.graphTraverse.GraphTraverseAlgorithm;
 public class DFSGraphSearcherStrategy extends GraphSearcherStrategy {
 
     public DFSGraphSearcherStrategy() {
-        algoName = Algorithm.dfs;
+        super(Algorithm.dfs);
     }
 
     @Override
