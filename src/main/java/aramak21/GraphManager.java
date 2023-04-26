@@ -1,5 +1,11 @@
 package aramak21;
 
+import aramak21.graphSearch.GraphSearcher;
+import aramak21.graphSearch.strategy.GraphSearcherStrategy;
+import aramak21.graphSearch.strategy.factory.GraphSearcherStrategyFactory;
+import aramak21.graphTraverse.BFSGraphSearchImpl;
+import aramak21.graphTraverse.DFSGraphSearchImpl;
+import aramak21.graphTraverse.GraphTraverseAlgorithm;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -27,14 +33,10 @@ public class GraphManager {
      }
 
    @Override public String toString()
-
     {
         String output;
-     System.out.println("The number of nodes in the graphs is " + graph.nodes.size());
-     System.out.println("The number of edges in the graph is " + graph.edges.size());
-     System.out.println("The label is " + graph.label);
-     System.out.println("The nodes are ");
-     for(Node node : graph.nodes)
+        printInfo();
+        for(Node node : graph.nodes)
          System.out.print(" " + node.getName() + " ");
      System.out.println("\n");
      System.out.println("The edges are from : ");
@@ -46,69 +48,79 @@ public class GraphManager {
      return output;
     }
 
-
+    private void printInfo() {
+        System.out.println("The number of nodes in the graphs is " + graph.nodes.size());
+        System.out.println("The number of edges in the graph is " + graph.edges.size());
+        System.out.println("The label is " + graph.label);
+        System.out.println("The nodes are ");
+    }
 
 
     public void addNode(String node_name) {
-        for(Node n : graph.nodes)
+        for(Node node : graph.nodes)
         {
-            if(n.getName().equals(node_name))
+            if(node.getName().equals(node_name))
             {
                 System.out.println("\n the node " + node_name + " already exists"); return;
             }
         }
         graph.nodes.add(new Node(node_name));
-        System.out.println("\nThe number of nodes after adding " + node_name+ " is " + graph.nodes.size());
+        displayUponAdd(node_name);
+
+    }
+
+    private void displayUponAdd(String node_name) {
+        System.out.println("\nThe number of nodes after adding " + node_name + " is " + graph.nodes.size());
         System.out.println("\nthe nodes after add operation ");
         for(Node node : graph.nodes)
             System.out.print(" " + node.getName() + " ");
-
     }
-    public void addNodes(String[] node) {
-        for (String n:node) {
-            addNode(n);
+
+    public void addNodes(String[] nodes) {
+        for (String node:nodes) {
+            addNode(node);
         }
     }
     public void addEdge(String source, String target) {
   boolean isSource = false;
   boolean isTarget = false;
-  Node s = null;
-  Node t= null;
-    for(Node n : graph.nodes)
+  Node node_source = null;
+  Node node_target= null;
+    for(Node node : graph.nodes)
     {
-        if(n.getName().equals(source))
+        if(node.getName().equals(source))
         {
             isSource=true;
-            s = n;
+            node_source = node;
         }
 
-        if(n.getName().equals(target))
+        if(node.getName().equals(target))
         {
             isTarget=true;
-            t= n ;
+            node_target= node ;
 
         }
     }
     if(!isSource)
     {
-        s = new Node(source);
-        graph.nodes.add(s);
+        node_source = new Node(source);
+        graph.nodes.add(node_source);
     }
     if(!isTarget)
     {
-        t= new Node(target);
-        graph.nodes.add(t);
+        node_target= new Node(target);
+        graph.nodes.add(node_target);
     }
 
-    for(Edge e : graph.edges)
+    for(Edge edge : graph.edges)
     {
-        if(e.getSource().getName().equals(source) && e.getTarget().getName().equals(target))
+        if(edge.getSource().getName().equals(source) && edge.getTarget().getName().equals(target))
         {
             System.out.println("\n the edge with source "+ source + "  and target " + target + " already exists");
             return;
         }
     }
-    graph.edges.add(new Edge(s,t));
+    graph.edges.add(new Edge(node_source,node_target));
 
         System.out.println("\nThe edges are from : ");
         for(Edge edge : graph.edges)
@@ -118,13 +130,13 @@ public class GraphManager {
     public void removeNode(String node_name) {
        ArrayList<Node> nodes1 = new ArrayList<>();
        ArrayList<Edge> edges1 = new ArrayList<>();
-        for(Node n : graph.nodes)
+        for(Node node : graph.nodes)
         {
-            if(n.getName().equals(node_name))
+            if(node.getName().equals(node_name))
             {
                  continue;
             }
-            nodes1.add(n);
+            nodes1.add(node);
 
         }
         System.out.println(" \nthe size of list after removing the node is " + nodes1.size());
@@ -133,31 +145,31 @@ public class GraphManager {
         for(Node node : graph.nodes)
             System.out.print(" " + node.getName() + " ");
 
-        for(Edge e : graph.edges)
+        for(Edge edge : graph.edges)
         {
-            if(e.getSource().getName().equals(node_name) || e.getTarget().getName().equals(node_name))
+            if(edge.getSource().getName().equals(node_name) || edge.getTarget().getName().equals(node_name))
                 continue;
-            edges1.add(new Edge(e.getSource(),e.getTarget()));
+            edges1.add(new Edge(edge.getSource(),edge.getTarget()));
         }
         graph.edges = edges1;
 
     }
 
-    public void removeNodes(String[] node) {
-        for (String n:node) {
-            removeNode(n);
+    public void removeNodes(String[] nodes) {
+        for (String node:nodes) {
+            removeNode(node);
         }
     }
 
     public void removeEdge(String source, String target) {
         ArrayList<Edge> edges1 = new ArrayList<>();
-        for(Edge e : graph.edges)
+        for(Edge edge : graph.edges)
         {
-            if(e.getSource().getName().equals(source) && e.getTarget().getName().equals(target))
+            if(edge.getSource().getName().equals(source) && edge.getTarget().getName().equals(target))
             {
                 continue;
             }
-            edges1.add( new Edge(e.getSource(),e.getTarget()));
+            edges1.add( new Edge(edge.getSource(),edge.getTarget()));
         }
         graph.edges= edges1 ;
 
@@ -171,19 +183,19 @@ public class GraphManager {
 
     public MutableGraph graphToMutableGraph()
     {
-        MutableGraph g = mutGraph(graph.label).setDirected(true);
+        MutableGraph mutableGraph = mutGraph(graph.label).setDirected(true);
 
         for(Node node : graph.nodes)
         {
-            g.add(mutNode(node.name));
+            mutableGraph.add(mutNode(node.name));
         }
 
         for(Edge edge : graph.edges)
         {
-            g.add(mutNode(edge.getSource().getName()).addLink(mutNode(edge.getTarget().getName())));
+            mutableGraph.add(mutNode(edge.getSource().getName()).addLink(mutNode(edge.getTarget().getName())));
         }
 
-        return g;
+        return mutableGraph;
     }
 
     public void outputDOTGraph(String path) throws IOException
@@ -225,8 +237,8 @@ public class GraphManager {
 
     public boolean containsEdge(String a, String b) {
         boolean hasEdge = false;
-        for(Edge e : graph.edges) {
-            if (e.getSource().getName().equals(a) && e.getTarget().getName().equals(b))
+        for(Edge edge : graph.edges) {
+            if (edge.getSource().getName().equals(a) && edge.getTarget().getName().equals(b))
                 hasEdge = true;
         }
 
@@ -235,9 +247,9 @@ public class GraphManager {
 
     public boolean containsNode(String e) {
         boolean hasNode = false;
-        for(Node n : graph.nodes)
+        for(Node node : graph.nodes)
         {
-            if(n.getName().equals(e))
+            if(node.getName().equals(e))
             {
              hasNode = true;
             }
@@ -245,12 +257,26 @@ public class GraphManager {
         return hasNode;
     }
 
-    public Path GraphSearch(Node src,Node dst, Algorithm algo) {
-        if (algo == Algorithm.dfs){
-            return graph.findPathUsingDFS(src,dst);
-        }else if(algo == Algorithm.bfs){
-        return graph.findPathUsingBFS(src,dst);
-        }
-        return null;
+    public Path GraphSearch(Node src, Node dst, Algorithm algo) {
+        printSearchInformation(src, dst, algo);
+        GraphSearcherStrategy strategy = GraphSearcherStrategyFactory.getStrategy(algo);
+        GraphSearcher graphSearcher = new GraphSearcher(strategy);
+        Path path = graphSearcher.search(graph, src, dst);
+        printPath(path);
+        return path;
     }
+
+    private static void printSearchInformation(Node src, Node dst, Algorithm algo) {
+        System.out.printf("Searching path from %s to %s by using algorithm: %s%n",
+                src.getName(), dst.getName(), algo.name());
+    }
+
+    private static void printPath(Path path) {
+        if (path != null){
+            System.out.printf("The path : %s%n", path.toString());
+        }else{
+            System.out.println("Sorry. No valid path was found!!!");
+        }
+    }
+
 }
