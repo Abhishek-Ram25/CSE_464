@@ -146,7 +146,7 @@ public class DemoApp {
                                "10.Return the graph as an SVG or PNG\n" +
                                "11. Perform bfs\n"+
                                 "12. Perform dfs\n"
-                            + "13.Exit");
+                            + "13.perform random_walk\n" +"14.Exit" );
     }
 
     public static void graphSearch(GraphManager graphManager,Algorithm algo)
